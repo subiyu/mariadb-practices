@@ -20,5 +20,6 @@
 		    <artifactId>mariadb-java-client</artifactId>
 		    <version>3.2.0</version>
 		</dependency>
+		
 	</dependencies>
 </project>

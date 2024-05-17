@@ -44,7 +44,7 @@ AND b.dept_no = d.dept_no
 AND b.to_date = '9999-01-01'
 ORDER BY a.emp_no;
 
-SELECT concat(a.first_name, ' ', a.last_name) as man_name, b.emp_no as emp_no
+SELECT concat(a.first_name, ' ', a.last_name) as man_name, b.emp_no as emp_no, b.dept_no as dept_no
 	FROM employees a, dept_manager b 
     WHERE a.emp_no = b.emp_no
     AND b.to_date = '9999-01-01';
@@ -109,41 +109,3 @@ AND a.to_date = '9999-01-01'
 AND d.to_date = '9999-01-01'
 AND d.salary > e.salary
 ORDER BY e.salary DESC;
-
-SELECT concat(a.first_name, ' ', a.last_name) as man_name, b.dept_no as dept_no, c.salary as salary
-	 FROM employees a, dept_manager b, salaries c
-     WHERE a.emp_no = b.emp_no
-     AND a.emp_no = c.emp_no
-     AND b.to_date = '9999-01-01'
-     AND c.to_date = '9999-01-01';
-
-SELECT 
-    f.dept_name AS '부서이름',
-    a.first_name AS '사원이름',
-    d.salary AS '연봉',
-    g.first_name AS '매니저 이름',
-    e.salary AS '매니저 연봉'
-FROM
-    employees a,
-    dept_emp b,
-    dept_manager c,
-    salaries d,
-    salaries e,
-    departments f,
-    employees g
-WHERE
-    a.emp_no = b.emp_no
-        AND c.dept_no = b.dept_no
-        AND a.emp_no = d.emp_no
-        AND c.emp_no = e.emp_no
-        AND c.dept_no = f.dept_no
-        AND c.emp_no = g.emp_no
-        AND b.to_date = '9999-01-01'
-        AND c.to_date = '9999-01-01'
-        AND d.to_date = '9999-01-01'
-        AND e.to_date = '9999-01-01'
-        AND d.salary > e.salary
-ORDER BY e.salary DESC;
-
-SELECT concat(a.first_name, ' ', a.last_name) as man_name, b.emp_no, c.salary as salary
-FROM employees a, dept_manager b, salaries c;

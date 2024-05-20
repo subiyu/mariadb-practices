@@ -5,55 +5,62 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class insertEx02 {
+public class UpdateEx02 {
 	public static void main(String[] args) {
-		System.out.println(insert("기획1팀"));
-		System.out.println(insert("기획2팀"));
+		DeptVo vo = new DeptVo();
+		vo.setNo(1L);
+		vo.setName("경영지원2");
+
+		boolean result = update(vo);
+		System.out.println(result ? "성공" : "실패");
 	}
-	
-	public static boolean insert(String deptName) {
+
+	public static boolean update(DeptVo vo) {
 		boolean result = false;
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
-			// 1. JDBC Driver 로딩
+			//1. JDBC Driver 로딩
 			Class.forName("org.mariadb.jdbc.Driver");
 			
 			//2. 연결하기
 			String url = "jdbc:mariadb://192.168.0.193:3306/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
-			
-			// 3. Statement 준비
-			String sql = "INSERT INTO dept values(null, ?)";
+
+			//3. Statement 준비
+			String sql = "update dept set name=? where no = ?";
 			pstmt = conn.prepareStatement(sql);
 			
-			// 4. binding
-			pstmt.setString(1, deptName);
+			//4. binding
+			pstmt.setString(1, vo.getName());
+			pstmt.setLong(2, vo.getNo());
 			
-			// 5. sql 실행
+			//5. SQL 실행
 			int count = pstmt.executeUpdate();
 			
-			// 6. 결과 처리
-			result = (count == 1);
+			//5. 결과 처리
+			result = count == 1;
+			
 		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실퍠: " + e);
+			System.out.println("드라이버 로딩 실패:" + e);
 		} catch (SQLException e) {
-			System.out.println("error: " + e);
+			System.out.println("error:" + e);
 		} finally {
 			try {
 				if(pstmt != null) {
 					pstmt.close();
 				}
+				
 				if(conn != null) {
 					conn.close();
 				}
-			} catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		
-		return result;
+		return result;		
 	}
 }

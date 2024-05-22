@@ -17,8 +17,8 @@ public class CartDao {
 		
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");			
-			//String url = "jdbc:mariadb://192.168.0.193:3306/bookmall?charset=utf8";
-			String url = "jdbc:mariadb://192.168.35.55:3306/bookmall?charset=utf8";
+			String url = "jdbc:mariadb://192.168.0.193:3306/bookmall?charset=utf8";
+			//String url = "jdbc:mariadb://192.168.35.55:3306/bookmall?charset=utf8";
 			conn = DriverManager.getConnection(url, "bookmall", "bookmall");
 		} catch(ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패: " + e);
@@ -73,6 +73,23 @@ public class CartDao {
 				result.add(vo);
 			}
 		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		} 
+		
+		return result;
+	}
+
+	public int deleteByUserNoAndBookNo(Long userNo, Long bookNo) {
+		int result = 0;
+		
+		try (
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM cart WHERE user_no = ? AND book_no = ?");
+		) {
+			pstmt.setLong(1, userNo);
+			pstmt.setLong(2, bookNo);
+			result = pstmt.executeUpdate();
+		} catch(SQLException e) {
 			System.out.println("error: " + e);
 		} 
 		

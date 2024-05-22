@@ -1,24 +1,48 @@
-INSERT INTO user(name, email, password, phone) VALUES("데스트유저01", "test01@test.com", "1234", "010-0000-0000");
-SELECT * FROM user;
-DELETE FROM user WHERE no = 1;
+select * from user;
+delete from user;
 
-INSERT INTO category(name) VALUES("인문");
-SELECT * FROM category;
-DELETE FROM category WHERE no = 1;
+select * from book;
+delete from book;
 
-INSERT INTO book(title, price, category_no) VALUES("과학혁명의 구조", 20000, 1);
-SELECT * FROM book;
-DELETE FROM book WHERE no = 1;
+select * from cart;
+delete from cart;
 
-INSERT INTO cart(user_no, book_no, quantity) VALUES(1, 1, 1);
-SELECT * FROM cart;
-DELETE FROM cart WHERE book_no = 1;
+select * from category;
+delete from category;
 
-INSERT INTO orders(user_no, order_number, payment, shipping, status) VALUES(1, "20240520-000012", 82400, "서울시 은평구 진관3로 77 구파발 래미안 926-801", "배송준비");
-SELECT * FROM orders;
-DELETE FROM orders WHERE no = 4;
+select * from orders;
+delete from orders;
 
-INSERT INTO orders_book(order_no, book_no, quantity, price) VALUES(4, 1, 2, 64000);
-SELECT * FROM orders;
-DELETE FROM orders WHERE no = 2;
+select * from orders_book;
+delete from orders_book;
 
+
+delete from orders_book;
+delete from orders;
+delete from cart;
+delete from book;
+delete from category;
+delete from user;
+
+SELECT b.book_no, b.user_no, b.quantity, a.title
+FROM book a, cart b
+WHERE a.no = b.book_no;
+
+SELECT no, user_no, order_number, payment, status, shipping
+FROM orders
+WHERE no = 10
+AND user_no = 23;
+
+SELECT a.book_no, a.order_no, a.quantity, a.price, b.title
+FROM orders_book a, book b, orders c, user d
+WHERE a.book_no = b.no
+AND a.order_no = c.no
+AND c.user_no = d.no
+AND book_no = 37
+AND user_no = 23;
+
+SELECT *
+FROM orders_book a, book b, orders c, user d
+WHERE a.book_no = b.no
+AND a.order_no = c.no
+AND c.user_no = d.no;
